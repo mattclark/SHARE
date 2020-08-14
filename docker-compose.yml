@@ -90,7 +90,7 @@ services:
   ##################
 
   frontend:
-    image: quay.io/centerforopenscience/ember-share:develop-local
+    image: quay.io/centerforopenscience/ember-share:develop-staging
     command: yarn start
     ports:
       - 4204:4200
