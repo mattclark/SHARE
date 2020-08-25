@@ -6,7 +6,7 @@
 #
 # OSX
 # - Alias the loopback interface if not already done during osf.io setup
-# $ export libdir='/Library/LaunchDaemons' \
+# export libdir='/Library/LaunchDaemons' \
 #   && export file='com.runlevel1.lo0.192.168.168.167.plist' \
 #   && sudo cp $file $libdir \
 #   && sudo chmod 0644 $libdir/$file \
@@ -39,8 +39,11 @@ volumes:
     external: false
   share_dist_vol:
     external: false
+  share_requirements_vol:
+    external: false
 
 services:
+
 
   ####################
   # Backend Services #
@@ -89,6 +92,20 @@ services:
   # SHARE software #
   ##################
 
+  requirements:
+    image: quay.io/centerforopenscience/share:develop
+    command:
+      - /bin/bash
+      - -c
+      - pip install -r requirements.txt -r dev-requirements.txt &&
+        (python3 -m compileall /usr/local/lib/python3.6 || true) &&
+        rm -Rf /python3.6/* &&
+        cp -Rf -p /usr/local/lib/python3.6 /
+    restart: 'no'
+    volumes:
+      - ./:/code:cached
+      - share_requirements_vol:/python3.6
+
   frontend:
     image: quay.io/centerforopenscience/ember-share:develop-staging
     command: yarn start
@@ -108,6 +125,7 @@ services:
       - elasticsearch
     volumes:
       - ./:/code:cached
+      - share_requirements_vol:/usr/local/lib/python3.6
     env_file:
       - .docker-compose.env
     environment:
@@ -129,6 +147,7 @@ services:
       - frontend
     volumes:
       - ./:/code:cached
+      - share_requirements_vol:/usr/local/lib/python3.6
     env_file:
       - .docker-compose.env
     environment:
