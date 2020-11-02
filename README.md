@@ -1,4 +1,5 @@
 # SHARE v2
+# Travis test
 
 SHARE is creating a free, open dataset of research (meta)data.
 
