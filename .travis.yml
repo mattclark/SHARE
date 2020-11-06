@@ -16,8 +16,6 @@ env:
     - ES_JAVA_OPTS="-Xms512m -Xmx512m"
     - PROJECT_DIR="$PWD"
     - WHEELHOUSE="$HOME/.cache/wheelhouse"
-    - LIBXML2_DEB="libxml2-dbg_2.9.4+dfsg1-7ubuntu3.1_amd64.deb"
-    - POSTGRES_DEB="postgresql-9.5_9.5.13-2.pgdg70+1_amd64.deb"
 
 before_install:
     # cache directories
